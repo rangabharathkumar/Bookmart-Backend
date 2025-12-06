@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: bookmart-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: bookmart
+      MYSQL_USER: bookmart_user
+      MYSQL_PASSWORD: bookmart_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - bookmart-network
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Spring Boot Application
+  backend:
+    image: bharath0711996/bookmart-backend:latest
+    container_name: bookmart-backend
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/bookmart
+      SPRING_DATASOURCE_USERNAME: bookmart_user
+      SPRING_DATASOURCE_PASSWORD: bookmart_pass
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      JWT_SECRET: yourSecretKeyHereThatIsLongEnoughForHS256Algorithm
+    ports:
+      - "8080:8080"
+    networks:
+      - bookmart-network
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+
+
+networks:
+  bookmart-network:
+    driver: bridge
