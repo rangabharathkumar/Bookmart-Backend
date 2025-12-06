@@ -209,6 +209,8 @@
                 <artifactId>jib-maven-plugin</artifactId>
                 <version>3.4.1</version>
                 <configuration>
+                    <!-- Skip Jib by default, only run when explicitly called -->
+                    <skip>true</skip>
                     <from>
                         <image>eclipse-temurin:21-jdk</image>
                     </from>
@@ -226,7 +228,7 @@
                         <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
                     </container>
                 </configuration>
-                <!-- Removed automatic execution - run manually with: mvn compile jib:build -->
+                <!-- Run manually with: mvn compile jib:build -Djib.skip=false -->
             </plugin>
 		</plugins>
 	</build>
