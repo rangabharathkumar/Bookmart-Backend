@@ -1,6 +1,5 @@
 package com.bookmart.bookmart_backend.model.dto.response;
 
-import com.bookmart.bookmart_backend.model.entity.OrderItem;
 import com.bookmart.bookmart_backend.model.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,5 +18,6 @@ public class OrderResponse {
     private LocalDateTime orderDate;
     private BigDecimal totalAmount;
     private OrderStatus status;
-    private List<OrderItem> items;
+    private List<OrderItemResponse> items;
 }
+

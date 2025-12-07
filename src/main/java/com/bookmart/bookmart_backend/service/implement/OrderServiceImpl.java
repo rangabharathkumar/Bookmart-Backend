@@ -1,5 +1,6 @@
 package com.bookmart.bookmart_backend.service.implement;
 
+import com.bookmart.bookmart_backend.Mapper.OrderMapper;
 import com.bookmart.bookmart_backend.exception.InsufficientStockException;
 import com.bookmart.bookmart_backend.exception.InvalidOrderException;
 import com.bookmart.bookmart_backend.exception.ResourceNotFoundException;
@@ -14,6 +15,7 @@ import com.bookmart.bookmart_backend.repository.BookRepository;
 import com.bookmart.bookmart_backend.repository.OrderRepository;
 import com.bookmart.bookmart_backend.repository.UserRepository;
 import com.bookmart.bookmart_backend.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -26,9 +28,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+    @Autowired
     private OrderRepository orderRepository;
+    @Autowired
     private UserRepository userRepository;
+    @Autowired
     private BookRepository bookRepository;
+    @Autowired
+    private OrderMapper orderMapper;
     
     @Override
     public OrderResponse placeOrder(String userEmail, OrderRequest orderRequest) {
@@ -66,19 +73,13 @@ public class OrderServiceImpl implements OrderService {
             order.setTotalAmount(order.getTotalAmount().add(itemTotal));
 
         }
-        order.setOrderItems((ArrayList<OrderItem>) orderItems);
+        order.setOrderItems(orderItems);
         Order savedOrder = orderRepository.save(order);
         return mapToResponse(savedOrder);
     }
     private OrderResponse mapToResponse(Order order) {
-        return new OrderResponse(
-                order.getId(),
-                order.getOrderDate(),
-                order.getTotalAmount(),
-                order.getStatus(),
-                order.getOrderItems()
-        );
-        }
+        return orderMapper.toOrderResponse(order);
+    }
     @Override
     public List<OrderResponse> getUserOrders(String userEmail) {
         List<Order> orders=orderRepository.findAllByUser_Email(userEmail);

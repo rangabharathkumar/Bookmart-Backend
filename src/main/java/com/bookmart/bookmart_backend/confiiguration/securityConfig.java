@@ -24,7 +24,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-public class securityConfig {
+public class SecurityConfig {
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -41,6 +41,7 @@ public class securityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/books/**").permitAll() 
                         .requestMatchers(
                                 "/swagger-ui.html",
                                 "/swagger-ui/**",

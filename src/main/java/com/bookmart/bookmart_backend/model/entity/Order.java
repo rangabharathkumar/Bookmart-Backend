@@ -2,21 +2,20 @@ package com.bookmart.bookmart_backend.model.entity;
 
 import com.bookmart.bookmart_backend.model.enums.OrderStatus;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@EqualsAndHashCode(exclude = {"orderItems", "user"})
+@ToString(exclude = {"orderItems", "user"})
 @Table(name = "orders")
 public class Order {
     @Id
@@ -29,17 +28,6 @@ public class Order {
     private BigDecimal totalAmount;
     private OrderStatus status;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private ArrayList<OrderItem> orderItems = new ArrayList<>();
-
+    private List<OrderItem> orderItems = new ArrayList<>();
 
 }
-
-//id
-//        (Long, PK)
-//user (ManyToOne relationship with
-//        User
-//)
-//orderDate (LocalDateTime)
-//totalAmount (BigDecimal)
-//status (Enum: OrderStatus)
-//orderItems (OneToMany relationship with OrderItem, mappedBy="order", CascadeType.ALL)

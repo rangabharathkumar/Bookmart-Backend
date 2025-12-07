@@ -1,9 +1,7 @@
 package com.bookmart.bookmart_backend.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -11,6 +9,8 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = {"order", "book"})
+@ToString(exclude = {"order", "book"})
 @Table(name = "orderItem")
 public class OrderItem {
     @Id
