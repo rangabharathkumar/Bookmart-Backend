@@ -15,7 +15,7 @@ RUN mvn dependency:go-offline -B
 COPY src ./src
 
 # Build the application (skip tests for Docker build, tests run in CI)
-RUN mvn clean package -DskipTests
+RUN mvn clean install -DskipTests
 
 # Stage 2: Create the runtime image
 FROM eclipse-temurin:21-jre
