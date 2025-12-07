@@ -16,13 +16,41 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
+@Configuration
+public class SwaggerConfig {
+
+    @Value("${spring.application.name:BookMart Backend}")
+    private String appName;
+
+    @Value("${app.swagger.prod-url:https://bookmart-backend-0rax.onrender.com}")
+    private String productionUrl;
+
+    private static final String SECURITY_SCHEME_NAME = "Bearer Authentication";
+
+    @Bean
+    public OpenAPI myOpenAPI() {
         // Server Configuration
         Server devServer = new Server();
         devServer.setUrl("http://localhost:8080");
         devServer.setDescription("Development Server");
 
         Server prodServer = new Server();
-        prodServer.setUrl(productionUrl); // Uses environment variable
+        prodServer.setUrl(productionUrl);
+        prodServer.setDescription("Production Server");
+
+        // Contact Information
+        Contact contact = new Contact();
+        contact.setEmail("support@bookmart.com");
+        contact.setName("BookMart Support");
+        contact.setUrl("https://www.bookmart.com");
+
+        // License
+        License mitLicense = new License()
+                .name("MIT License")
+                .url("https://choosealicense.com/licenses/mit/");
+
+        // API Information
+        Info info = new Info()
                 .title("📚 BookMart API Documentation")
                 .version("1.0.0")
                 .contact(contact)
