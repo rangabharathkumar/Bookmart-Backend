@@ -6,6 +6,7 @@
 ![Docker](https://img.shields.io/badge/Docker-Enabled-blue)
 
 Online Bookstore Backend API built with Spring Boot, featuring JWT authentication, RESTful endpoints, and automated CI/CD.
+Live at: https://bookmart-frontend.vercel.app/
 
 ##  Features
 
@@ -190,7 +191,7 @@ This project is licensed under the MIT License.
 ##  Author
 
 **Your Name**
-- GitHub: [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
+- GitHub: [@RangaBharathkumar]
 
 ##  Acknowledgments
 
